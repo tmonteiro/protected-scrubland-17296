@@ -22,7 +22,7 @@ router.get('/db', function (request, response) {
 router.get('/api/v1/all', (req, res, next) => {
   const results = [];
   // Get a Postgres client from the connection pool
-  pg.connect(connectionString, (err, client, done) => {
+  pg.connect(process.env.DATABASE_URL, (err, client, done) => {
     // Handle connection errors
     if(err) {
       done();
