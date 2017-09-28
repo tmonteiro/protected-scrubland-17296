@@ -27,7 +27,7 @@ router.get('/api/v1/all', (req, res, next) => {
     if(err) {
       done();
       console.log(err);
-      return res.status(500).json({success: false, data: err});
+      return res.status(500).jsonp({success: false, data: err});
     }
     // SQL Query > Select Data
     const query = client.query('SELECT * FROM test_table ORDER BY id ASC;');
@@ -38,7 +38,7 @@ router.get('/api/v1/all', (req, res, next) => {
     // After all data is returned, close connection and return results
     query.on('end', () => {
       done();
-      return res.json(results);
+      return res.jsonp(results);
     });
   });
 });
