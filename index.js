@@ -1,10 +1,13 @@
 var express = require('express');
 //var bodyParser = require('body-parser');
 
+/*var mongo = require('mongodb');
+var monk = require('monk');
+var db = monk(process.env.OPENSHIFT_MONGODB_DB_URL + 'shaolin');*/
 
 var routes = require('./routes/index');
-var app = express();
 
+var app = express();
 
 app.set('port', (process.env.PORT || 5000));
 
@@ -15,6 +18,12 @@ app.set('views', __dirname + '/views');
 //app.set('view engine', 'ejs');
 //app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
+
+
+/*app.use(function(req,res,next){
+	req.db = db;
+	next();
+});*/
 
 app.use('/', routes);
 
