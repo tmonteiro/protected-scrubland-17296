@@ -43,8 +43,6 @@ router.get('/api/v1/all', (req, res, next) => {
   });
 });
 
-
-
 // /* GET */
 // router.get('/post/:id', function(req, res){
 //   var db = req.db;
@@ -55,6 +53,22 @@ router.get('/api/v1/all', (req, res, next) => {
 //     // db.close();
 // 	});
 // });
+
+router.get('/api/v1/post/:id', (req, res, next) => {
+  const results = [];
+  const id = req.params.id;
+  pg.connect(process.env.DATABASE_URL, (err, client, done) => {
+    const query = client.query('SELECT * FROM test_table WHERE id=($1)', [id]);
+    query.on('row', (row) => {
+      results.push(row);
+    });
+    query.on('end', () => {
+      done();
+      return res.jsonp(results);
+    });
+  });
+});
+
 
 // /* GET */
 // router.get('/post/:cod/:user', function (req, res) {
