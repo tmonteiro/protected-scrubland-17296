@@ -19,6 +19,22 @@ router.get('/db', function (request, response) {
   });
 });
 
+router.get('/api/v1/all', function (req, res) {
+  var results = [];
+  pg.connect(process.env.DATABASE_URL, function(err, client, done) {
+    client.query('SELECT * FROM test_table', function(err, result) {
+      done();
+      if (err) {
+        console.log(err);
+        return res.status(500).json({success: false, data: err});
+      } else {
+        return res.json(result);
+      }
+  
+    });
+  });
+});
+
 
 // /* GET */
 // router.get('/post/:id', function(req, res){
