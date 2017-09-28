@@ -14,7 +14,7 @@ router.get('/db', function (request, response) {
       if (err)
        { console.error(err); response.send("Error " + err); }
       else
-       { response.render('index', {title: result.rows} ); }
+       { response.render('index', {title: result.rows[0].name} ); }
     });
   });
 });
