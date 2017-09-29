@@ -30,7 +30,7 @@ router.get('/api/v1/all', (req, res, next) => {
       return res.status(500).jsonp({success: false, data: err});
     }
     // SQL Query > Select Data
-    const query = client.query('SELECT * FROM test_table ORDER BY id ASC;');
+    const query = client.query('SELECT * FROM posts;');
     // Stream results back one row at a time
     query.on('row', (row) => {
       results.push(row);
@@ -61,9 +61,9 @@ router.get('/api/v1/post/:cod', (req, res, next) => {
   
   const cod = req.params.cod;
   pg.connect(process.env.DATABASE_URL, (err, client, done) => {
-    const query = client.query('SELECT name FROM test_table WHERE id=($1)', [cod]);
+    const query = client.query('SELECT usuario FROM posts WHERE cod=($1)', [cod]);
     query.on('row', (row) => {
-      thanks.push(row.name);
+      thanks.push(row.usuario);
     });
     query.on('end', () => {
       done();
@@ -76,7 +76,6 @@ router.get('/api/v1/post/:cod', (req, res, next) => {
     });
   });
 });
-
 
 // /* GET */
 // router.get('/post/:cod/:user', function (req, res) {
@@ -112,9 +111,9 @@ router.get('/api/v1/post/:cod/:user', (req, res, next) => {
   const user = req.params.user;
 
   pg.connect(process.env.DATABASE_URL, (err, client, done) => {
-    client.query('INSERT INTO test_table (id, name) values($1, $2)', [cod, user]);
+    client.query('INSERT INTO posts (cod, usuario) values($1, $2)', [cod, user]);
 
-    const query = client.query('SELECT * FROM test_table where id=($1) and name=($2)', [cod, user]);
+    const query = client.query('SELECT * FROM posts where cod=($1) and usuario=($2)', [cod, user]);
     
     query.on('row', (row) => {  
       results.push(row);
