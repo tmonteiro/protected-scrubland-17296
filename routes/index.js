@@ -56,14 +56,21 @@ router.get('/api/v1/all', (req, res, next) => {
 
 router.get('/api/v1/post/:id', (req, res, next) => {
   const results = [];
+  const thanks = [];
+  const obj = {};
   const id = req.params.id;
   pg.connect(process.env.DATABASE_URL, (err, client, done) => {
-    const query = client.query('SELECT * FROM test_table WHERE id=($1)', [id]);
+    const query = client.query('SELECT name FROM test_table WHERE id=($1)', [id]);
     query.on('row', (row) => {
-      results.push(row);
+      thanks.push(row);
     });
     query.on('end', () => {
       done();
+      obj = {
+        "cod":id,
+        "thanks": thanks
+      }
+      results.push(obj);
       return res.jsonp(results);
     });
   });
