@@ -108,7 +108,7 @@ router.get('/api/v1/post/:cod', (req, res, next) => {
 
 router.get('/api/v1/post/:cod/:user', (req, res, next) => {
   const results = [];  
-  const cod = req.params.id;
+  const cod = req.params.cod;
   const user = req.params.user;
 
   pg.connect(process.env.DATABASE_URL, (err, client, done) => {
