@@ -62,7 +62,7 @@ router.get('/api/v1/post/:id', (req, res, next) => {
   pg.connect(process.env.DATABASE_URL, (err, client, done) => {
     const query = client.query('SELECT name FROM test_table WHERE id=($1)', [id]);
     query.on('row', (row) => {
-      thanks.push(row);
+      thanks.push(row.name);
     });
     query.on('end', () => {
       done();
