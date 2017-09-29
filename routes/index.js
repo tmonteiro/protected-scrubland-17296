@@ -54,20 +54,21 @@ router.get('/api/v1/all', (req, res, next) => {
 // 	});
 // });
 
-router.get('/api/v1/post/:id', (req, res, next) => {
+//TO-DO: REFATORAR
+router.get('/api/v1/post/:cod', (req, res, next) => {
   const results = [];
   const thanks = [];
   
-  const id = req.params.id;
+  const cod = req.params.cod;
   pg.connect(process.env.DATABASE_URL, (err, client, done) => {
-    const query = client.query('SELECT name FROM test_table WHERE id=($1)', [id]);
+    const query = client.query('SELECT name FROM test_table WHERE id=($1)', [cod]);
     query.on('row', (row) => {
       thanks.push(row.name);
     });
     query.on('end', () => {
       done();
       const obj = {
-        "cod":id,
+        "cod":cod,
         "thanks": thanks
       }
       results.push(obj);
@@ -85,11 +86,6 @@ router.get('/api/v1/post/:id', (req, res, next) => {
 //     cod:req.params.cod,
 //     thanks: [req.params.user]
 //   };
-
-//   /*console.log(req.params.cod);
-//   console.log(req.params.user);
-//   console.log(post);*/
-
 //   collection.find({"cod": post.cod},{}, function(e,docs) {
 //     if(docs.length != 0){
 //       //Se o post já existe, verifica se o thak já existe adiciona o thank
@@ -109,5 +105,27 @@ router.get('/api/v1/post/:id', (req, res, next) => {
 //   res.jsonp('what');
 
 // });
+
+router.get('/api/v1/post/:cod/:user', (req, res, next) => {
+  const results = [];  
+  const cod = req.params.id;
+  const user = req.params.user;
+
+  pg.connect(process.env.DATABASE_URL, (err, client, done) => {
+    client.query('INSERT INTO test_table (id, name) values($1, $2)', [cod, user]);
+
+    const query = client.query('SELECT * FROM test_table where id=($1) and name=($2)', [cod, user]);
+    
+    query.on('row', (row) => {  
+      results.push(row);
+    });
+
+    query.on('end', () => {
+      done();
+      return res.jsonp(results);
+    });
+  });
+});
+
 
 module.exports = router;
