@@ -57,7 +57,7 @@ router.get('/api/v1/all', (req, res, next) => {
 router.get('/api/v1/post/:id', (req, res, next) => {
   const results = [];
   const thanks = [];
-  const obj = {};
+  
   const id = req.params.id;
   pg.connect(process.env.DATABASE_URL, (err, client, done) => {
     const query = client.query('SELECT name FROM test_table WHERE id=($1)', [id]);
@@ -66,7 +66,7 @@ router.get('/api/v1/post/:id', (req, res, next) => {
     });
     query.on('end', () => {
       done();
-      obj = {
+      const obj = {
         "cod":id,
         "thanks": thanks
       }
