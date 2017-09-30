@@ -1,5 +1,5 @@
 var express = require('express');
-//var bodyParser = require('body-parser');
+var bodyParser = require('body-parser');
 
 /*var mongo = require('mongodb');
 var monk = require('monk');
@@ -18,7 +18,8 @@ app.set('views', __dirname + '/views');
 //app.set('view engine', 'ejs');
 //app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
-
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
 
 /*app.use(function(req,res,next){
 	req.db = db;
@@ -28,7 +29,12 @@ app.set('view engine', 'jade');
 app.use('/', routes);
 
 
-
+// catch 404 and forward to error handler
+app.use((req, res, next) => {
+  var err = new Error('Not Found');
+  err.status = 404;
+  next(err);
+});
 
 /*app.get('/', function(request, response) {
   response.render('pages/index');

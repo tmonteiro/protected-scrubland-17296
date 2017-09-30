@@ -27,7 +27,7 @@ router.get('/api/v1/all', (req, res, next) => {
     if(err) {
       done();
       console.log(err);
-      return res.status(500).jsonp({success: false, data: err});
+      res.status(500).jsonp({success: false, data: err});
     }
     // SQL Query > Select Data
     const query = client.query('SELECT * FROM posts;');
@@ -38,21 +38,10 @@ router.get('/api/v1/all', (req, res, next) => {
     // After all data is returned, close connection and return results
     query.on('end', () => {
       done();
-      return res.jsonp(results);
+      res.jsonp(results);
     });
   });
 });
-
-// /* GET */
-// router.get('/post/:id', function(req, res){
-//   var db = req.db;
-// 	var collection = db.get('posts');
-//   var codigo = req.params.id;
-//   collection.find({"cod": codigo},{}, function(e,docs) {
-//     res.jsonp(docs);
-//     // db.close();
-// 	});
-// });
 
 //TO-DO: REFATORAR
 router.get('/api/v1/post/:cod', (req, res, next) => {
@@ -72,38 +61,10 @@ router.get('/api/v1/post/:cod', (req, res, next) => {
         "thanks": thanks
       }
       results.push(obj);
-      return res.jsonp(results);
+      res.jsonp(results);
     });
   });
 });
-
-// /* GET */
-// router.get('/post/:cod/:user', function (req, res) {
-//   var db = req.db;
-// 	var collection = db.get('posts');
-//   var post = {
-//     cod:req.params.cod,
-//     thanks: [req.params.user]
-//   };
-//   collection.find({"cod": post.cod},{}, function(e,docs) {
-//     if(docs.length != 0){
-//       //Se o post já existe, verifica se o thak já existe adiciona o thank
-//       collection.find({"cod": post.cod, "thanks": post.thanks[0]},{}, function(e,docs2) {
-//         if(docs2.length == 0){
-//             collection.update({"cod": post.cod},{$push: {"thanks":post.thanks[0]}});
-//         }
-//       })
-//       //res.jsonp('{"acao":"update"}');
-//     } else {
-//       //não existe, insere Registro
-//       collection.insert(post);
-//       //res.jsonp('{"acao":"insert"}');
-//     }
-// 	});
-
-//   res.jsonp('what');
-
-// });
 
 router.get('/api/v1/post/:cod/:user', (req, res, next) => {
   const results = [];  
@@ -121,7 +82,7 @@ router.get('/api/v1/post/:cod/:user', (req, res, next) => {
 
     query.on('end', () => {
       done();
-      return res.jsonp(results);
+      res.jsonp(results);
     });
   });
 });
