@@ -4,6 +4,8 @@ var express = require('express');
 /*var mongo = require('mongodb');
 var monk = require('monk');
 var db = monk(process.env.OPENSHIFT_MONGODB_DB_URL + 'shaolin');*/
+var pg = require('pg');
+var db = pg.connect(process.env.DATABASE_URL);
 
 var routes = require('./routes/index');
 
@@ -20,10 +22,10 @@ app.set('views', __dirname + '/views');
 app.set('view engine', 'jade');
 
 
-/*app.use(function(req,res,next){
+app.use(function(req,res,next){
 	req.db = db;
 	next();
-});*/
+});
 
 app.use('/', routes);
 

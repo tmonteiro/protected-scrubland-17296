@@ -1,6 +1,5 @@
 var express = require('express');
 var router = express.Router();
-var pg = require('pg');
 
 router.get('/', function(req, res, next) {
   res.render('index', { title: 'Shazam' });
@@ -8,7 +7,15 @@ router.get('/', function(req, res, next) {
 
 
 router.get('/db', function (request, response) {
-  pg.connect(process.env.DATABASE_URL, function(err, client, done) {
+  var db = request.db;
+  db.query('SELECT * FROM test_table', function(err, result) {
+    done();
+    if (err)
+     { console.error(err); response.send("Error " + err); }
+    else
+     { response.render('index', {title: result.rows[0].name} ); }
+  });
+  /*pg.connect(process.env.DATABASE_URL, function(err, client, done) {
     client.query('SELECT * FROM test_table', function(err, result) {
       done();
       if (err)
@@ -16,7 +23,7 @@ router.get('/db', function (request, response) {
       else
        { response.render('index', {title: result.rows[0].name} ); }
     });
-  });
+  });*/
 });
 
 router.get('/api/v1/all', (req, res, next) => {
