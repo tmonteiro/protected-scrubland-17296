@@ -6,8 +6,7 @@ router.get('/', function(req, res, next) {
   res.render('index', { title: 'Shazam' });
 });
 
-
-router.get('/db', function (request, response) {
+/*router.get('/db', function (request, response) {
   pg.connect(process.env.DATABASE_URL, function(err, client, done) {
     client.query('SELECT * FROM test_table', function(err, result) {
       done();
@@ -17,9 +16,9 @@ router.get('/db', function (request, response) {
        { response.render('index', {title: result.rows[0].name} ); }
     });
   });
-});
+});*/
 
-router.get('/api/v1/all', (req, res, next) => {
+router.get('/api/v1/post/all', (req, res, next) => {
   const results = [];
   // Get a Postgres client from the connection pool
   pg.connect(process.env.DATABASE_URL, (err, client, done) => {
@@ -46,21 +45,15 @@ router.get('/api/v1/all', (req, res, next) => {
 //TO-DO: REFATORAR
 router.get('/api/v1/post/:cod', (req, res, next) => {
   const results = [];
-  const thanks = [];
-  
   const cod = req.params.cod;
+
   pg.connect(process.env.DATABASE_URL, (err, client, done) => {
     const query = client.query('SELECT usuario FROM posts WHERE cod=($1)', [cod]);
     query.on('row', (row) => {
-      thanks.push(row.usuario);
+      results.push(row.usuario);
     });
     query.on('end', () => {
       done();
-      const obj = {
-        "cod":cod,
-        "thanks": thanks
-      }
-      results.push(obj);
       res.jsonp(results);
     });
   });
@@ -86,6 +79,5 @@ router.get('/api/v1/post/:cod/:user', (req, res, next) => {
     });
   });
 });
-
 
 module.exports = router;
