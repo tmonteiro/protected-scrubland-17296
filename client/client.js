@@ -9,58 +9,7 @@ $(function() {
       return logout.slice(logout.indexOf('[')+2, logout.indexOf(']')-1);
     };
 
-    var callRest = function(cod, local) {
-      var url = 'http://shaolin-sfdata.rhcloud.com/post/' + cod;
-      $.ajax({
-        type: 'GET',
-        url: url,
-        async: false,
-        // jsonpCallback: 'jsonCallback',
-        contentType: "application/json",
-        dataType: 'jsonp',
-        success: function(json) {
-          if (json.length > 0) {
-            var string;
-            var html = $(local).find('#lista')[0].innerHTML;
-            for (var i = 0; i < json[0].thanks.length; i++) {
-
-              if (json[0].thanks.length == '1') {
-                html = '<hr><br><span class="content">'
-                              +json[0].thanks.length+' pessoa agradeceu esse post:</span><br>'
-              } else if (json[0].thanks.length != '1' && json[0].thanks.length != '0'){
-                html = '<hr><br><span class="content">'+json[0].thanks.length+
-                                        ' pessoas agradeceram esse post:</span><br>'
-              }
-
-              if (i == 0) {
-                string = json[0].thanks[i];
-              } else {
-                string += ', ' + json[0].thanks[i];
-              }
-            }
-            html += '<b><i><span class="content" id="tnks">'+string+'</span></i></b>';
-            $(local).find('#lista')[0].innerHTML = html;
-
-            /* se usuario que está logado está entre os que agradeceram deve-se:
-             - colocar o botão desabilitado sem link
-             - apresentar o campo com os links (code?) */
-             if (json[0].thanks.indexOf(get_user()) > -1 ) {
-               $(local).find('.ddvote')[0].innerHTML = imgVoted;
-               if (categoria == cat) {
-                 //esconde o campo de links
-                 $(local).find('code').css('display','block');
-                 // $(posts[i]).find('blockquote').css('display','none');
-               }
-             }
-          }
-        },
-        error: function(e) {
-          alert('Erro ao conectar ao serviço rest -- 001');
-        }
-      });
-    };
-
-    //var userLogin = get_user();
+    var userLogin = get_user();
     var posts = $('.post').get();
     var postAuthor;
     var postHidden;
@@ -80,10 +29,7 @@ $(function() {
       if (!(postAuthor)){
         postAuthor = $(posts[i]).find('.postprofile strong').html()
       }
-      // postHidden = $(posts[i]).find('.hidecode');
-
-      //esconde o campo hidden, menos para o author do post (e admins)?
-      //toggle_hidden();
+      postHidden = $(posts[i]).find('.hidecode');
 
       var postId = posts[i].id;
       var postBody = $(posts[i]).find('.postbody');
@@ -95,18 +41,18 @@ $(function() {
       // //insere o botão de thank bloqueado para todos
       postIcons.prepend('<li class="ddvote"><li>');
 
-      if (get_user() != postAuthor) { //se não for o dono do topico
+      // if (get_user() != postAuthor) { //se não for o dono do topico
         $(postBody).find('.ddvote')[0].innerHTML = imgVote;
         if (categoria == cat) {
           //esconde o campo de links
           $(posts[i]).find('code').css('display','none');
           // $(posts[i]).find('blockquote').css('display','none');
         }
-      }
+      // }
 
       $(postBody).append('<div id="lista"></div>');
 
-      callRest(postId, postBody);
+      //callRest(postId, postBody);
 
     };
 
@@ -125,46 +71,50 @@ $(function() {
         dataType: 'jsonp',
         success: function(json) {
 
+          console.log(json);
+
           if (json.length > 0) {
 
             var string;
-            var html = $(local).find('#lista')[0].innerHTML;
-            for (var i = 0; i < json[0].thanks.length; i++) {
+            // var html = $(local).find('#lista')[0].innerHTML;
+            var html = $(postBody).find('#lista')[0].innerHTML;
+            
+            for (var i = 0; i < json.length; i++) {
 
-              if (json[0].thanks.length == '1') {
+              if (json.length == '1') {
                 html = '<hr><br><span class="content">'
-                              +json[0].thanks.length+' pessoa agradeceu esse post:</span><br>'
-              } else if (json[0].thanks.length != '1' && json[0].thanks.length != '0'){
-                html = '<hr><br><span class="content">'+json[0].thanks.length+
+                              +json.length+' pessoa agradeceu esse post:</span><br>'
+              } else if (json.length != '1' && json.length != '0'){
+                html = '<hr><br><span class="content">'+json.length+
                                         ' pessoas agradeceram esse post:</span><br>'
               }
 
               if (i == 0) {
-                string = json[0].thanks[i];
+                string = json[i].usuario;
               } else {
-                string += ', ' + json[0].thanks[i];
+                string += ', ' + json[i].usuario;
               }
             }
             html += '<b><i><span class="content" id="tnks">'+string+'</span></i></b>';
-            $(local).find('#lista')[0].innerHTML = html;
+            $(postBody).find('#lista')[0].innerHTML = html;
 
             /* se usuario que está logado está entre os que agradeceram deve-se:
              - colocar o botão desabilitado sem link
              - apresentar o campo com os links (code?) */
-             if (json[0].thanks.indexOf(get_user()) > -1 ) {
-               $(local).find('.ddvote')[0].innerHTML = imgVoted;
+             if (json.indexOf(get_user()) > -1 ) {
+               $(postBody).find('.ddvote')[0].innerHTML = imgVoted;
                if (categoria == cat) {
                  //esconde o campo de links
-                 $(local).find('code').css('display','block');
+                 $(postBody).find('code').css('display','block');
                  // $(posts[i]).find('blockquote').css('display','none');
                }
              }
 
           }
 
-          console.log(x);
-          alert('Obrigado por agradecer!\nA página será recarregada para salvar.');
-          location.reload();
+          // console.log(x);
+          // alert('Obrigado por agradecer!\nA página será recarregada para salvar.');
+          // location.reload();
 
         },
         error: function(e) {
