@@ -47,9 +47,9 @@ router.get('/api/v1/post/:cod', (req, res, next) => {
   const cod = req.params.cod;
 
   pg.connect(process.env.DATABASE_URL, (err, client, done) => {
-    const query = client.query('SELECT user FROM posts_thanks WHERE cod_post=($1)', [cod]);
+    const query = client.query('SELECT usuario FROM posts_thanks WHERE cod_post=($1)', [cod]);
     query.on('row', (row) => {
-      results.push(row.user);
+      results.push(row.usuario);
     });
     query.on('end', () => {
       done();
@@ -64,12 +64,12 @@ router.get('/api/v1/post/:cod/:user', (req, res, next) => {
   const user = req.params.user;
 
   pg.connect(process.env.DATABASE_URL, (err, client, done) => {
-    client.query('INSERT INTO posts_thanks (cod_post, user) values($1, $2)', [cod, user]);
+    client.query('INSERT INTO posts_thanks (cod_post, usuario) values($1, $2)', [cod, user]);
 
-    const query = client.query('SELECT user FROM posts_thanks where cod_post=($1)', [cod]);
+    const query = client.query('SELECT usuario FROM posts_thanks where cod_post=($1)', [cod]);
     
     query.on('row', (row) => {  
-      results.push(row.user);
+      results.push(row.usuario);
     });
 
     query.on('end', () => {
