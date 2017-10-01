@@ -69,7 +69,7 @@ router.get('/api/v1/post/:cod/:user', (req, res, next) => {
     const query = client.query('SELECT usuario FROM posts where cod=($1)', [cod]);
     
     query.on('row', (row) => {  
-      results.push(row);
+      results.push(row.usuario);
     });
 
     query.on('end', () => {

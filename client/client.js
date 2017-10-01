@@ -102,7 +102,7 @@ $(function() {
              console.log(user);
              console.log(json);
              console.log(json.indexOf(user));
-             console.log(json[0].indexOf(user));
+             console.log(json.usuario.indexOf(user));
             //  if (json.indexOf(user) > -1 ) {
                
             //    $(postBody).find('.ddvote')[0].innerHTML = imgVoted;
