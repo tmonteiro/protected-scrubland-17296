@@ -42,7 +42,6 @@ router.get('/api/v1/post/all', (req, res, next) => {
   });
 });
 
-//TO-DO: REFATORAR
 router.get('/api/v1/post/:cod', (req, res, next) => {
   const results = [];
   const cod = req.params.cod;
