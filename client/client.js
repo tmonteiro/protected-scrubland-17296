@@ -1,7 +1,7 @@
 "use strict";
 $(function() {
 
-    if ($('.page-title a').html() == 'teste') {//page-title
+    // if ($('.page-title a').html() == 'teste') {//page-title
 
     $('#main-content').prepend('<style type="text/css">ul.profile-icons li.ddvote{height:20px;line-height:20px;font-size:12px;font-weight:bold}ul.profile-icons li.ddvote a{display:inline}.postbody ul.profile-icons li.ddvote img{cursor:default;vertical-align:middle}.postbody ul.profile-icons li.ddvote a img{cursor:pointer}</style>');
 
@@ -98,14 +98,14 @@ $(function() {
       // //insere o botão de thank bloqueado para todos
       postIcons.prepend('<li class="ddvote"><li>');
 
-      // if (get_user() != postAuthor) { //se não for o dono do topico
+      if (get_user() != postAuthor) { //se não for o dono do topico
         $(postBody).find('.ddvote')[0].innerHTML = imgVote;
         if (categoria == cat) {
           //esconde o campo de links
           $(posts[i]).find('code').css('display','none');
           // $(posts[i]).find('blockquote').css('display','none');
         }
-      // }
+      }
 
       $(postBody).append('<div id="lista"></div>');
 
@@ -128,5 +128,5 @@ $(function() {
       // console.log(this.parentElement.parentElement.parentElement.parentElement.parentElement);//id="p66107" class="post row2
 
     });
-  } //IF TESTE
+  //} //IF TESTE
   });
