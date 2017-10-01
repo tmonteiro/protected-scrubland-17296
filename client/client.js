@@ -71,8 +71,6 @@ $(function() {
         dataType: 'jsonp',
         success: function(json) {
 
-          console.log(json);
-
           if (json.length > 0) {
 
             var string;
@@ -101,14 +99,19 @@ $(function() {
             /* se usuario que está logado está entre os que agradeceram deve-se:
              - colocar o botão desabilitado sem link
              - apresentar o campo com os links (code?) */
-             if (json.indexOf(get_user()) > -1 ) {
-               $(postBody).find('.ddvote')[0].innerHTML = imgVoted;
-               if (categoria == cat) {
-                 //esconde o campo de links
-                 $(postBody).find('code').css('display','block');
-                 // $(posts[i]).find('blockquote').css('display','none');
-               }
-             }
+             console.log(user);
+             console.log(json);
+             console.log(json.indexOf(user));
+             console.log(json[0].indexOf(user));
+            //  if (json.indexOf(user) > -1 ) {
+               
+            //    $(postBody).find('.ddvote')[0].innerHTML = imgVoted;
+            //    if (categoria == cat) {
+            //      //esconde o campo de links
+            //      $(postBody).find('code').css('display','block');
+            //      // $(posts[i]).find('blockquote').css('display','none');
+            //    }
+            //  }
 
           }
 

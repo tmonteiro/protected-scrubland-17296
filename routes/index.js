@@ -66,7 +66,7 @@ router.get('/api/v1/post/:cod/:user', (req, res, next) => {
   pg.connect(process.env.DATABASE_URL, (err, client, done) => {
     client.query('INSERT INTO posts (cod, usuario) values($1, $2)', [cod, user]);
 
-    const query = client.query('SELECT * FROM posts where cod=($1)', [cod]);
+    const query = client.query('SELECT usuario FROM posts where cod=($1)', [cod]);
     
     query.on('row', (row) => {  
       results.push(row);
