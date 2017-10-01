@@ -47,10 +47,11 @@ router.get('/api/v1/post/:cod', (req, res, next) => {
   const cod = req.params.cod;
 
   pg.connect(process.env.DATABASE_URL, (err, client, done) => {
-    console.log('a');
+    
     const query = client.query('SELECT usuario FROM posts_thanks WHERE cod_post=($1)', [cod]);
     query.on('row', (row) => {
       results.push(row.usuario);
+      console.log('Result: ' + row.usuario);
     });
     query.on('end', () => {
       done();
