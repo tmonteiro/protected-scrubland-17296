@@ -80,4 +80,29 @@ router.get('/api/v1/post/:cod/:user', (req, res, next) => {
   });
 });
 
+
+router.get('/api/v1/post/teste', (req, res, next) => {
+  const results = [];
+  // Get a Postgres client from the connection pool
+  pg.connect(process.env.DATABASE_URL, (err, client, done) => {
+    // Handle connection errors
+    if(err) {
+      done();
+      console.log(err);
+      res.status(500).jsonp({success: false, data: err});
+    }
+    // SQL Query > Select Data
+    const query = client.query("SELECT * FROM json_data WHERE data->>'type' = 'phone'");
+    // Stream results back one row at a time
+    query.on('row', (row) => {
+      results.push(row);
+    });
+    // After all data is returned, close connection and return results
+    query.on('end', () => {
+      done();
+      res.jsonp(results);
+    });
+  });
+});
+
 module.exports = router;
