@@ -96,6 +96,7 @@ router.get('/api/v1/post/teste', (req, res, next) => {
     keys: json_data.map(function(v) { return v.name }),
     term: req.query.q
   }, function(err, docs){
+    console.log('ERRO:' + err);
     res.jsonp(docs);
   });
 });
