@@ -90,9 +90,15 @@ var json_data = [
   { label: 'warranty_years', name: 1 }
 ];
 
+// Set up Postgres using massive.js
+const massive = require('massive');
+var connectionString = process.env.DATABASE_URL;
+var massiveInstance = massive.connectSync({connectionString : connectionString});
+// app.set('db', massiveInstance);
+
 router.get('/api/v1/post/teste', (req, res, next) => {
 
-  app.db.json_data.find({"data->>type": "phone"}, function(err, result){
+  massiveInstance.json_data.find({"data->>type": "phone"}, function(err, result){
     res.jsonp(result);
   });
 
