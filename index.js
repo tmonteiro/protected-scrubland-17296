@@ -32,10 +32,10 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-/*app.use(function(req,res,next){
-	req.db = db;
+app.use(function(req,res,next){
+	req.db = massiveInstance;
 	next();
-});*/
+});
 
 app.use('/', routes);
 
