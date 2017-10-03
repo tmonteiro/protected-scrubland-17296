@@ -1,8 +1,10 @@
 var express = require('express');
 var router = express.Router();
 var pg = require('pg');
-var app = express();
-var db = app.get('db');
+var Massive = require("massive");
+
+var db = Massive.connectSync({db : process.env.DATABASE_URL});
+
 
 router.get('/', function(req, res, next) {
   res.render('index', { title: 'Shazam' });
@@ -92,9 +94,11 @@ var json_data = [
 ];
 
 router.get('/api/v1/post/teste', (req, res, next) => {
-  req.db.json_data.find({type: 'phone'}, function(err, result){
+
+  db.json_data.find({type: 'phone'}, function(err, result){
     res.jsonp(result);
   });
+
 });
 
 module.exports = router;

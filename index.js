@@ -4,7 +4,7 @@ const favicon = require('serve-favicon');
 const logger = require('morgan');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
-const massive = require('massive');
+
 
 const routes = require('./routes/index');
 
@@ -15,10 +15,11 @@ app.set('port', (process.env.PORT || 5000));
 app.use(express.static(__dirname + '/public'));
 
 
-// Set up Postgres using massive.js
-var connectionString = process.env.DATABASE_URL;
-var massiveInstance = massive.connectSync({connectionString : connectionString});
-app.set('db', massiveInstance);
+// // Set up Postgres using massive.js
+// const massive = require('massive');
+// var connectionString = process.env.DATABASE_URL;
+// var massiveInstance = massive.connectSync({connectionString : connectionString});
+// app.set('db', massiveInstance);
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -32,10 +33,10 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use(function(req,res,next){
-	req.db = massiveInstance;
-	next();
-});
+// app.use(function(req,res,next){
+// 	req.db = massiveInstance;
+// 	next();
+// });
 
 app.use('/', routes);
 
