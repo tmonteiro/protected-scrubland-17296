@@ -2,7 +2,6 @@ var express = require('express');
 var router = express.Router();
 var pg = require('pg');
 var app = require('/./app');
-var db = app.get('db');
 
 router.get('/', function(req, res, next) {
   res.render('index', { title: 'Shazam' });
@@ -93,7 +92,7 @@ var json_data = [
 
 router.get('/api/v1/post/teste', (req, res, next) => {
 
-  db.json_data.find({type: 'phone'}, function(err, result){
+  app.db.json_data.find({"data->>type": "phone"}, function(err, result){
     res.jsonp(result);
   });
 
