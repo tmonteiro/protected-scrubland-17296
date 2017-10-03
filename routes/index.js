@@ -1,10 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var pg = require('pg');
-var Massive = require("massive");
-
-var db = Massive.connectSync({db : process.env.DATABASE_URL});
-
+var db = app.get('db');
 
 router.get('/', function(req, res, next) {
   res.render('index', { title: 'Shazam' });

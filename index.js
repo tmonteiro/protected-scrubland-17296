@@ -15,11 +15,11 @@ app.set('port', (process.env.PORT || 5000));
 app.use(express.static(__dirname + '/public'));
 
 
-// // Set up Postgres using massive.js
-// const massive = require('massive');
-// var connectionString = process.env.DATABASE_URL;
-// var massiveInstance = massive.connectSync({connectionString : connectionString});
-// app.set('db', massiveInstance);
+// Set up Postgres using massive.js
+const massive = require('massive');
+var connectionString = process.env.DATABASE_URL;
+var massiveInstance = massive.connectSync({connectionString : connectionString});
+app.set('db', massiveInstance);
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
