@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var pg = require('pg');
+var app = require('././app');
 var db = app.get('db');
 
 router.get('/', function(req, res, next) {
