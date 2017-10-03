@@ -30,7 +30,7 @@ router.get('/api/v1/post/all', (req, res, next) => {
       res.status(500).jsonp({success: false, data: err});
     }
     // SQL Query > Select Data
-    const query = client.query('SELECT * FROM json_data;');
+    const query = client.query("SELECT data->>'price' as iphone_price FROM json_data;");
     // Stream results back one row at a time
     query.on('row', (row) => {
       results.push(row);
@@ -81,27 +81,27 @@ router.get('/api/v1/post/all', (req, res, next) => {
 //   });
 // });
 
-var json_data = [ 
-  { label: 'Name', name: 'Apple Phone' },
-  { label: 'type', name: 'phone' },
-  { label: 'brand', name: 'ACME' },
-  { label: 'price', name: 200 },
-  { label: 'available', name: true },
-  { label: 'warranty_years', name: 1 }
-];
+// var json_data = [ 
+//   { label: 'Name', name: 'Apple Phone' },
+//   { label: 'type', name: 'phone' },
+//   { label: 'brand', name: 'ACME' },
+//   { label: 'price', name: 200 },
+//   { label: 'available', name: true },
+//   { label: 'warranty_years', name: 1 }
+// ];
 
-// Set up Postgres using massive.js
-const massive = require('massive');
-var connectionString = process.env.DATABASE_URL;
-var massiveInstance = massive.connectSync({connectionString : connectionString});
-// app.set('db', massiveInstance);
+// // Set up Postgres using massive.js
+// const massive = require('massive');
+// var connectionString = process.env.DATABASE_URL;
+// var massiveInstance = massive.connectSync({connectionString : connectionString});
+// // app.set('db', massiveInstance);
 
-router.get('/api/v1/post/teste', (req, res, next) => {
+// router.get('/api/v1/post/teste', (req, res, next) => {
 
-  massiveInstance.json_data.find({"data->>type": "phone"}, function(err, result){
-    res.jsonp(result);
-  });
+//   massiveInstance.json_data.find({"data->>type": "phone"}, function(err, result){
+//     res.jsonp(result);
+//   });
 
-});
+// });
 
 module.exports = router;
