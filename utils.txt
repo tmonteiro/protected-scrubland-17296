@@ -10,31 +10,14 @@ CREATE TABLE posts_thanks(
 ALTER SEQUENCE <tablename>_<id>_seq RESTART WITH 1
 ALTER SEQUENCE posts_thanks_id_seq RESTART WITH 1
 
-Peking,
-Diegogodoi,
-Chen Zhen,
-Guilherme Chan,
-antonio cesar,
-Tdablio,
-gera madureira, 
-azeredoferreira1234, 
-natanael,
- toni,
-  lucas onezio, 
-  mccall,
-   Camboim,
-    Drew,
-     italo 1980
-     , Hiei,
-      loboduarte, 
-      dinha,
-       marcos alves,
-        shang chi,
-         enilsonj,
-          jack bauer,
-           felipeprestes_, 
-           charles bronson,
-            kung_f,
-             luiz arantes de araujo,
-             zort,
-             Bozz
+
+insert into posts_thanks (thanks) values ('{
+    "p61241": [
+        "Hayllander"
+    ],
+    "p61263": [
+        "gera madureira",
+        "loboduarte",
+        "Camboim"
+    ]
+}');

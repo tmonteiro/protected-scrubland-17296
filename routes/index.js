@@ -29,7 +29,8 @@ router.get('/api/v1/post/all', (req, res, next) => {
       res.status(500).jsonp({success: false, data: err});
     }
     // SQL Query > Select Data
-    const query = client.query("SELECT data->>'price' as iphone_price FROM json_data where data->>'name'='Apple Phone';");
+    //const query = client.query("SELECT data->>'price' as iphone_price FROM json_data where data->>'name'='Apple Phone';");
+    const query = client.query("SELECT * FROM posts_thanks;");
     // Stream results back one row at a time
     query.on('row', (row) => {
       results.push(row);
