@@ -58,11 +58,10 @@ if (app.get('env') === 'development') {
 // no stacktraces leaked to user
 app.use(function(err, req, res, next) {
   res.status(err.status || 500);
-  console.log(err.message);
-  // res.json('error', {
-  //   message: err.message,
-  //   error: {}
-  // });
+  res.render('error', {
+    message: err.message,
+    error: {}
+  });
 });
 
 app.listen(app.get('port'), function() {

@@ -1,7 +1,6 @@
 var express = require('express');
 var router = express.Router();
 var pg = require('pg');
-var app = require('/./app');
 
 router.get('/', function(req, res, next) {
   res.render('index', { title: 'Shazam' });
