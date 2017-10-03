@@ -4,6 +4,7 @@ const favicon = require('serve-favicon');
 const logger = require('morgan');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
+const massive = require('massive');
 
 const routes = require('./routes/index');
 
@@ -12,6 +13,12 @@ const app = express();
 app.set('port', (process.env.PORT || 5000));
 
 app.use(express.static(__dirname + '/public'));
+
+
+// Set up Postgres using massive.js
+var connectionString = process.env.DATABASE_URL;
+var massiveInstance = massive.connectSync({connectionString : connectionString});
+app.set('db', massiveInstance);
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

@@ -1,6 +1,8 @@
 var express = require('express');
 var router = express.Router();
 var pg = require('pg');
+var app = express();
+var db = app.get('db');
 
 router.get('/', function(req, res, next) {
   res.render('index', { title: 'Shazam' });
@@ -18,90 +20,83 @@ router.get('/', function(req, res, next) {
   });
 });*/
 
-router.get('/api/v1/post/all', (req, res, next) => {
-  const results = [];
-  // Get a Postgres client from the connection pool
-  pg.connect(process.env.DATABASE_URL, (err, client, done) => {
-    // Handle connection errors
-    if(err) {
-      done();
-      console.log(err);
-      res.status(500).jsonp({success: false, data: err});
-    }
-    // SQL Query > Select Data
-    const query = client.query('SELECT * FROM posts_thanks;');
-    // Stream results back one row at a time
-    query.on('row', (row) => {
-      results.push(row);
-    });
-    // After all data is returned, close connection and return results
-    query.on('end', () => {
-      done();
-      res.jsonp(results);
-    });
-  });
-});
+// router.get('/api/v1/post/all', (req, res, next) => {
+//   const results = [];
+//   // Get a Postgres client from the connection pool
+//   pg.connect(process.env.DATABASE_URL, (err, client, done) => {
+//     // Handle connection errors
+//     if(err) {
+//       done();
+//       console.log(err);
+//       res.status(500).jsonp({success: false, data: err});
+//     }
+//     // SQL Query > Select Data
+//     const query = client.query('SELECT * FROM posts_thanks;');
+//     // Stream results back one row at a time
+//     query.on('row', (row) => {
+//       results.push(row);
+//     });
+//     // After all data is returned, close connection and return results
+//     query.on('end', () => {
+//       done();
+//       res.jsonp(results);
+//     });
+//   });
+// });
 
-router.get('/api/v1/post/:cod', (req, res, next) => {
-  const results = [];
-  const cod = req.params.cod;
+// router.get('/api/v1/post/:cod', (req, res, next) => {
+//   const results = [];
+//   const cod = req.params.cod;
 
-  pg.connect(process.env.DATABASE_URL, (err, client, done) => {
+//   pg.connect(process.env.DATABASE_URL, (err, client, done) => {
     
-    const query = client.query('SELECT usuario FROM posts_thanks WHERE cod_post=($1)', [cod]);
-    query.on('row', (row) => {
-      results.push(row.usuario);
-    });
-    query.on('end', () => {
-      done();
-      res.jsonp(results);
-    });
-  });
-});
+//     const query = client.query('SELECT usuario FROM posts_thanks WHERE cod_post=($1)', [cod]);
+//     query.on('row', (row) => {
+//       results.push(row.usuario);
+//     });
+//     query.on('end', () => {
+//       done();
+//       res.jsonp(results);
+//     });
+//   });
+// });
 
-router.get('/api/v1/post/:cod/:user', (req, res, next) => {
-  const results = [];  
-  const cod = req.params.cod;
-  const user = req.params.user;
+// router.get('/api/v1/post/:cod/:user', (req, res, next) => {
+//   const results = [];  
+//   const cod = req.params.cod;
+//   const user = req.params.user;
 
-  pg.connect(process.env.DATABASE_URL, (err, client, done) => {
-    client.query('INSERT INTO posts_thanks (cod_post, usuario) values($1, $2)', [cod, user]);
+//   pg.connect(process.env.DATABASE_URL, (err, client, done) => {
+//     client.query('INSERT INTO posts_thanks (cod_post, usuario) values($1, $2)', [cod, user]);
 
-    const query = client.query('SELECT usuario FROM posts_thanks where cod_post=($1)', [cod]);
+//     const query = client.query('SELECT usuario FROM posts_thanks where cod_post=($1)', [cod]);
     
-    query.on('row', (row) => {  
-      results.push(row.usuario);
-    });
+//     query.on('row', (row) => {  
+//       results.push(row.usuario);
+//     });
 
-    query.on('end', () => {
-      done();
-      res.jsonp(results);
-    });
-  });
-});
+//     query.on('end', () => {
+//       done();
+//       res.jsonp(results);
+//     });
+//   });
+// });
 
+var json_data = [ 
+  { label: 'Name', name: 'Apple Phone' },
+  { label: 'type', name: 'phone' },
+  { label: 'brand', name: 'ACME' },
+  { label: 'price', name: 200 },
+  { label: 'available', name: true },
+  { label: 'warranty_years', name: 1 }
+];
 
 router.get('/api/v1/post/teste', (req, res, next) => {
-  const results = [];
-  // Get a Postgres client from the connection pool
-  pg.connect(process.env.DATABASE_URL, (err, client, done) => {
-    // Handle connection errors
-    if(err) {
-      done();
-      console.log(err);
-      res.status(500).jsonp({success: false, data: err});
-    }
-    // SQL Query > Select Data
-    const query = client.query('SELECT * FROM json_data;');
-    // Stream results back one row at a time
-    query.on('row', (row) => {
-      results.push(row);
-    });
-    // After all data is returned, close connection and return results
-    query.on('end', () => {
-      done();
-      res.jsonp(results);
-    });
+  req.app.get('db').product.searchDoc({
+    keys: json_data.map(function(v) { return v.name }),
+    term: req.query.q
+  }, function(err, docs){
+    res.jsonp(docs);
   });
 });
 
