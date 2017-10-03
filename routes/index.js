@@ -93,7 +93,7 @@ var json_data = [
 // Set up Postgres using massive.js
 const massive = require('massive');
 var connectionString = process.env.DATABASE_URL + "?ssl=true" || "postgres://postgres@localhost/postgres";
-var massiveInstance = massive.connectSync({db : connectionString});
+var massiveInstance = massive.connectSync({connectionString : connectionString});
 // app.set('db', massiveInstance);
 
 router.get('/api/v1/post/teste', (req, res, next) => {
