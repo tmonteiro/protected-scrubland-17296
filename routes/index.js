@@ -92,7 +92,7 @@ router.get('/api/v1/post/teste', (req, res, next) => {
       res.status(500).jsonp({success: false, data: err});
     }
     // SQL Query > Select Data
-    const query = client.query('SELECT * FROM json_data');
+    const query = client.query('SELECT * FROM json_data;');
     // Stream results back one row at a time
     query.on('row', (row) => {
       results.push(row);
