@@ -70,14 +70,14 @@ router.get('/api/v1/post/:cod/:user', (req, res, next) => {
 
   pg.connect(process.env.DATABASE_URL, (err, client, done) => {
 
-    client.query('SELECT usuario FROM posts_thanks where cod_post=($1)', [cod], (err, res) => {
+    client.query("SELECT jsonb_array_elements_text(thanks->'usuarios') AS usuario FROM posts_thanks where cod_post=($1)", [cod], (err, ress) => {
       if (err) {
         console.log(err.stack)
       } else {
+        results.push(res.rows[0]);
         console.log(res.rows[0])
       }
-      res.jsonp(res.rows[0]);
-      done();
+      
     });
 
     // const query = client.query('SELECT usuario FROM posts_thanks where cod_post=($1)', [cod]);
@@ -90,6 +90,8 @@ router.get('/api/v1/post/:cod/:user', (req, res, next) => {
     //   done();
     //   res.jsonp(results);
     // });
+    res.jsonp(results);
+    done();
   });
 
 
