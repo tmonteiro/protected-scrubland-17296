@@ -13,14 +13,14 @@ module.exports = function(app) {
             poststhanksController.getAll()
             .then((response) => {
                 res.status(response.statusCode);
-                res.json(response.data);
+                res.jsonp(response.data);
             });
         })
         .post((req, res) => {
             poststhanksController.create(req.body)
               .then((response) => {
                 res.status(response.statusCode);
-                res.json(response.data);
+                res.jsonp(response.data);
               });
           });
 
@@ -29,14 +29,14 @@ module.exports = function(app) {
             poststhanksController.getByCod(req.params)
             .then((response) => {
                 res.status(response.statusCode);
-                res.json(response.data);
+                res.jsonp(response.data);
             });
         })
         .put((req, res) => {
             poststhanksController.update(req.body, req.params)
             .then((response) => {
                 res.status(response.statusCode);
-                res.json(response.data);
+                res.jsonp(response.data);
             });
         })
         .delete((req, res) => {
@@ -51,14 +51,14 @@ module.exports = function(app) {
             poststhanksController.getByCodOrCreate(req.params)
             .then((response) => {
                 res.status(response.statusCode);
-                res.json(response.data);
+                res.jsonp(response.data);
             });
         })
         .put((req, res) => {
             poststhanksController.update(req.body, req.params)
             .then((response) => {
                 res.status(response.statusCode);
-                res.json(response.data);
+                res.jsonp(response.data);
             });
         })
         .delete((req, res) => {
