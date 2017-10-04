@@ -28,12 +28,14 @@ insert into posts_thanks (thanks) values ('{
 SELECT jsonb_array_elements_text(thanks->($1)) AS usuario FROM posts_thanks
 jsonb_insert('{"a": [0,1,2]}', '{a, 1}', '"new_value"', true)
 
-insert into posts_thanks (cod_post, thanks) values ('p61263', '{
-    "usuarios": [
-        "gera madureira",
-        "loboduarte",
-        "Camboim"
+insert into posts_thanks (cod_post, thanks) values ('p12345', '{
+    users: [
+        tiago,
+        loboduarte
     ]
 }');
 
 SELECT jsonb_array_elements_text(thanks->'usuarios') AS usuario FROM posts_thanks where cod_post = 'p61241';
+
+
+PGUSER=postgres PGPASSWORD=1234 heroku pg:pull postgresql-transparent-63897 mylocaldb --app protected-scrubland-17296
