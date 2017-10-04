@@ -11,7 +11,7 @@ $(function() {
     };
 
     var service = function(params, pb) {
-      var url = 'http://protected-scrubland-17296.herokuapp.com/api/v1/post/'+ params;
+      var url = 'hhttps://protected-scrubland-17296.herokuapp.com/posts/'+ params;
       $.ajax({
         type: 'GET',
         url: url,

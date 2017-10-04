@@ -22,7 +22,7 @@ class PoststhanksController {
 
     getByCod(params) {
         return this.PostsThanks.findOne({ where: params })
-            .then(result => defaultResponse(result))
+            .then(result => defaultResponse(result.thanks.users))
             .catch(error => errorResponse(error.message));
     }
     
