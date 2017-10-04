@@ -72,9 +72,13 @@ router.get('/api/v1/post/:cod/:user', (req, res, next) => {
 
     client.query('SELECT 1 FROM posts_thanks where cod_post=($1)', [cod], (err, res) => {
       if (err) {
+        
         console.log(err.stack);
+        done();
       } else {
+       
         console.log(res.rows[0]);
+        done();
       }
     });
 
