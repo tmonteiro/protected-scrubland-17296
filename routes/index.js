@@ -43,22 +43,23 @@ router.get('/api/v1/post/all', (req, res, next) => {
   });
 });
 
-// router.get('/api/v1/post/:cod', (req, res, next) => {
-//   const results = [];
-//   const cod = req.params.cod;
+router.get('/api/v1/post/:cod', (req, res, next) => {
+  const results = [];
+  const cod = req.params.cod;
 
-//   pg.connect(process.env.DATABASE_URL, (err, client, done) => {
+  pg.connect(process.env.DATABASE_URL, (err, client, done) => {
     
-//     const query = client.query('SELECT usuario FROM posts_thanks WHERE cod_post=($1)', [cod]);
-//     query.on('row', (row) => {
-//       results.push(row.usuario);
-//     });
-//     query.on('end', () => {
-//       done();
-//       res.jsonp(results);
-//     });
-//   });
-// });
+    //const query = client.query('SELECT usuario FROM posts_thanks WHERE cod_post=($1)', [cod]);
+    const query = client.query("SELECT jsonb_array_elements_text(thanks->($1)) AS usuarios FROM posts_thanks",[cod]);
+    query.on('row', (row) => {
+      results.push(row.usuario);
+    });
+    query.on('end', () => {
+      done();
+      res.jsonp(results);
+    });
+  });
+});
 
 // router.get('/api/v1/post/:cod/:user', (req, res, next) => {
 //   const results = [];  
