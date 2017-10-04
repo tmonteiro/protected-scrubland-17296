@@ -50,9 +50,9 @@ router.get('/api/v1/post/:cod', (req, res, next) => {
   pg.connect(process.env.DATABASE_URL, (err, client, done) => {
     
     //const query = client.query('SELECT usuario FROM posts_thanks WHERE cod_post=($1)', [cod]);
-    const query = client.query("SELECT jsonb_array_elements_text(thanks->($1)) AS usuarios FROM posts_thanks",[cod]);
+    const query = client.query("SELECT jsonb_array_elements_text(thanks->($1)) AS usuario FROM posts_thanks",[cod]);
     query.on('row', (row) => {
-      results.push(row);
+      results.push(row.usuario);
     });
     query.on('end', () => {
       done();
