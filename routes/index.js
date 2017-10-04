@@ -70,28 +70,30 @@ router.get('/api/v1/post/:cod/:user', (req, res, next) => {
 
   pg.connect(process.env.DATABASE_URL, (err, client, done) => {
 
-    client.query("SELECT jsonb_array_elements_text(thanks->'usuarios') AS usuario FROM posts_thanks where cod_post=($1)", [cod], (err, ress) => {
-      if (err) {
-        console.log(err.stack)
-      } else {
-        results.push(ress.row);
-        console.log(ress)
-      }
+    // client.query("SELECT jsonb_array_elements_text(thanks->'usuarios') AS usuario FROM posts_thanks where cod_post=($1)", [cod], (err, ress) => {
+    //   if (err) {
+    //     console.log(err.stack)
+    //   } else {
+    //     results.push(ress.row);
+    //     console.log(ress)
+    //   }
+    //   ///rowCount
+    //   //rows:[]
       
+    // });
+
+    const query = client.query("SELECT jsonb_array_elements_text(thanks->'usuarios') AS usuario FROM posts_thanks where cod_post=($1)", [cod]);
+    console.log(query);
+    query.on('row', (row) => {  
+      console.log('passou no on');
+      results.push(row.usuario);
     });
 
-    // const query = client.query('SELECT usuario FROM posts_thanks where cod_post=($1)', [cod]);
-    
-    // query.on('row', (row) => {  
-    //   results.push(row.usuario);
-    // });
-
-    // query.on('end', () => {
-    //   done();
-    //   res.jsonp(results);
-    // });
-    res.jsonp(results);
-    done();
+    query.on('end', () => {
+      console.log('passou no end');
+      done();
+      res.jsonp(results);
+    });
   });
 
 
