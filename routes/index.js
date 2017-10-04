@@ -74,8 +74,8 @@ router.get('/api/v1/post/:cod/:user', (req, res, next) => {
       if (err) {
         console.log(err.stack)
       } else {
-        results.push(res.rows[0]);
-        console.log(res.rows[0])
+        results.push(res.row);
+        console.log(res)
       }
       
     });
