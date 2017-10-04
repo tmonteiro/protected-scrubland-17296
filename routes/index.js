@@ -52,7 +52,7 @@ router.get('/api/v1/post/:cod', (req, res, next) => {
     //const query = client.query('SELECT usuario FROM posts_thanks WHERE cod_post=($1)', [cod]);
     const query = client.query("SELECT jsonb_array_elements_text(thanks->($1)) AS usuarios FROM posts_thanks",[cod]);
     query.on('row', (row) => {
-      results.push(row.usuario);
+      results.push(row);
     });
     query.on('end', () => {
       done();
