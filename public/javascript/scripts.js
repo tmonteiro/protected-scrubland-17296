@@ -1,10 +1,11 @@
 document.getElementById("teste").addEventListener("click", function(){
 
-    var url='http://localhost:5000/posts/';
+    var url='https://protected-scrubland-17296.herokuapp.com/posts/';
 
     var textarea = document.getElementById("txtarea").value.split("\n");
 
     document.getElementById("total").innerHTML = textarea.length;
+
     var count=0;
     var dados = textarea.map(function(data){
         var linha = data.split(",");
@@ -12,20 +13,13 @@ document.getElementById("teste").addEventListener("click", function(){
         count++;
         document.getElementById("parcial").innerHTML = count;
     });
-
-    // console.log(textarea);
-    // var arr = [
-    //     {cod_post: 'p61241', usuario: 'Hayllander'},
-    //     {cod_post: 'p61031', usuario: 'Hayllander'},
-    //     {cod_post: 'p61249', usuario: 'shang chi'}
-    // ];
-   
     
     function service (item) {
         $.ajax({
             type: 'GET',
             url: url + item[0] + '/' + item[1],
             contentType: "application/json",
+            async: false,
             dataType: 'json',
             success: function(json) {
                 return true;

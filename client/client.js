@@ -56,7 +56,6 @@ $(function() {
                  // $(posts[i]).find('blockquote').css('display','none');
                }
              }
-
           }
 
         },
@@ -73,25 +72,30 @@ $(function() {
     var pathname;
     var categoria;
     var cat = 'Filmes Postados no Templo Shaolin';
+    var pageTitle = $('.page-title').find('a').html().trim();
 
-    for (var i = 0; i < posts.length; i++) {
+    var principal = posts.filter(function(value){
+      return $(value).find('.topic-title a').html().trim() == pageTitle;
+    });
+
+    for (var i = 0; i < principal.length; i++) {
 
       pathname = $('.pathname-box').find('.nav')[1];
       categoria = $(pathname).find('span').html();
 
-      postAuthor = $(posts[i]).find('.author a strong').html();
+      postAuthor = $(principal[i]).find('.author a strong').html();
       if (!(postAuthor)) {
-        postAuthor = $(posts[i]).find('.author a').html();
+        postAuthor = $(principal[i]).find('.author a').html();
       }
       if (!(postAuthor)){
-        postAuthor = $(posts[i]).find('.postprofile strong').html()
+        postAuthor = $(principal[i]).find('.postprofile strong').html()
       }
-      postHidden = $(posts[i]).find('.hidecode');
+      postHidden = $(principal[i]).find('.hidecode');
 
-      var postId = posts[i].id;
-      var postBody = $(posts[i]).find('.postbody');
-      var postAuthorUrl = $(posts[i]).find('.author a').attr('href');
-      var postIcons = $(posts[i]).find('.profile-icons');
+      var postId = principal[i].id;
+      var postBody = $(principal[i]).find('.postbody');
+      var postAuthorUrl = $(principal[i]).find('.author a').attr('href');
+      var postIcons = $(principal[i]).find('.profile-icons');
       var imgVote = '<a href="#"><img style="position:relative;top:-3px;margin-right:3px" title="Obrigado" src="http://i38.servimg.com/u/f38/19/12/15/40/thanks10.gif" /></a>';
       var imgVoted = '<img style="position:relative;top:-3px;margin-right:3px" title="Obrigado" src="http://i38.servimg.com/u/f38/19/12/15/40/thanks11.gif" />';
 
@@ -102,7 +106,7 @@ $(function() {
         $(postBody).find('.ddvote')[0].innerHTML = imgVote;
         if (categoria == cat) {
           //esconde o campo de links
-          $(posts[i]).find('code').css('display','none');
+          $(principal[i]).find('code').css('display','none');
           // $(posts[i]).find('blockquote').css('display','none');
         }
       // }
@@ -121,12 +125,6 @@ $(function() {
       var pb = this.parentElement.parentElement.parentElement;
       service (params,pb);
       alert('Obrigado!');
-      // console.log(this.parentElement); //ddvote
-      // console.log(this.parentElement.parentElement); //profile-icons
-      // console.log(this.parentElement.parentElement.parentElement); //postbody
-      // console.log(this.parentElement.parentElement.parentElement.parentElement);//inner
-      // console.log(this.parentElement.parentElement.parentElement.parentElement.parentElement);//id="p66107" class="post row2
-
     });
   } //IF TESTE
 });
