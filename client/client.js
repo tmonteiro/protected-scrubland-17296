@@ -1,7 +1,7 @@
 "use strict";
 $(function() {
 
-  if ($('.page-title a').html() == 'teste') {//page-title
+  // if ($('.page-title a').html() == 'teste') {//page-title
 
     $('#main-content').prepend('<style type="text/css">ul.profile-icons li.ddvote{height:20px;line-height:20px;font-size:12px;font-weight:bold}ul.profile-icons li.ddvote a{display:inline}.postbody ul.profile-icons li.ddvote img{cursor:default;vertical-align:middle}.postbody ul.profile-icons li.ddvote a img{cursor:pointer}</style>');
 
@@ -65,6 +65,33 @@ $(function() {
       });
     };
 
+    var ServiceDelete = function(param) {
+
+      var url = 'https://protected-scrubland-17296.herokuapp.com/posts/delete/';
+
+      for (var index = 0; index < param.length; index++) {
+        if (!index==0){
+          console.log(param[index]);
+          $.ajax({
+            type: 'GET',
+            url: url + param[index],
+            async: false,
+            contentType: "application/json",
+            dataType: 'jsonp',
+            success: function(json) {
+              console.log(json);
+            },
+            error: function(e) {
+              console.log(e);
+            }
+          });
+        }      
+      }
+
+      
+      
+    };
+
     var userLogin = get_user();
     var posts = $('.post').get();
     var postAuthor;
@@ -99,17 +126,16 @@ $(function() {
       var imgVote = '<a href="#"><img style="position:relative;top:-3px;margin-right:3px" title="Obrigado" src="http://i38.servimg.com/u/f38/19/12/15/40/thanks10.gif" /></a>';
       var imgVoted = '<img style="position:relative;top:-3px;margin-right:3px" title="Obrigado" src="http://i38.servimg.com/u/f38/19/12/15/40/thanks11.gif" />';
 
-      // //insere o botão de thank bloqueado para todos
       postIcons.prepend('<li class="ddvote"><li>');
 
-      // if (get_user() != postAuthor) { //se não for o dono do topico
+       if (get_user() != postAuthor) { //se não for o dono do topico
         $(postBody).find('.ddvote')[0].innerHTML = imgVote;
         if (categoria == cat) {
           //esconde o campo de links
           $(principal[i]).find('code').css('display','none');
           // $(posts[i]).find('blockquote').css('display','none');
         }
-      // }
+       }
 
       $(postBody).append('<div id="lista"></div>');
 
@@ -117,14 +143,19 @@ $(function() {
 
     };
 
+    var arr = $('.post').get().map(x => {
+      return $(x).attr('id');
+    });
+
+    ServiceDelete(arr);
+
     $('.ddvote a').click(function() {
       var user = get_user();
       var cod = this.parentElement.parentElement.parentElement.parentElement.parentElement.id;
-      //var url = 'http://shaolin-sfdata.rhcloud.com/post/' + cod + '/' + user;
       var params = cod + '/' + user;
       var pb = this.parentElement.parentElement.parentElement;
       service (params,pb);
       alert('Obrigado!');
     });
-  } //IF TESTE
+  // } //IF TESTE
 });

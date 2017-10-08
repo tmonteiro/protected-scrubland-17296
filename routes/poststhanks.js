@@ -68,4 +68,12 @@ module.exports = function(app) {
             });
         });
     
+    app.route('/posts/delete/:cod_post')
+        .get((req, res) => {
+            poststhanksController.delete(req.params)
+            .then((response) => {
+                res.status(response.statusCode);
+                res.jsonp(response.data);
+            });
+        }); 
 };
