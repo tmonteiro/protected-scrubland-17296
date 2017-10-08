@@ -65,33 +65,6 @@ $(function() {
       });
     };
 
-    var ServiceDelete = function(param) {
-
-      var url = 'https://protected-scrubland-17296.herokuapp.com/posts/delete/';
-
-      for (var index = 0; index < param.length; index++) {
-        if (!index==0){
-          console.log(param[index]);
-          $.ajax({
-            type: 'GET',
-            url: url + param[index],
-            async: false,
-            contentType: "application/json",
-            dataType: 'jsonp',
-            success: function(json) {
-              console.log(json);
-            },
-            error: function(e) {
-              console.log(e);
-            }
-          });
-        }      
-      }
-
-      
-      
-    };
-
     var userLogin = get_user();
     var posts = $('.post').get();
     var postAuthor;
@@ -107,47 +80,45 @@ $(function() {
 
     for (var i = 0; i < principal.length; i++) {
 
-      pathname = $('.pathname-box').find('.nav')[1];
-      categoria = $(pathname).find('span').html();
+      if(i==0) {
 
-      postAuthor = $(principal[i]).find('.author a strong').html();
-      if (!(postAuthor)) {
-        postAuthor = $(principal[i]).find('.author a').html();
-      }
-      if (!(postAuthor)){
-        postAuthor = $(principal[i]).find('.postprofile strong').html()
-      }
-      postHidden = $(principal[i]).find('.hidecode');
+        pathname = $('.pathname-box').find('.nav')[1];
+        categoria = $(pathname).find('span').html();
 
-      var postId = principal[i].id;
-      var postBody = $(principal[i]).find('.postbody');
-      var postAuthorUrl = $(principal[i]).find('.author a').attr('href');
-      var postIcons = $(principal[i]).find('.profile-icons');
-      var imgVote = '<a href="#"><img style="position:relative;top:-3px;margin-right:3px" title="Obrigado" src="http://i38.servimg.com/u/f38/19/12/15/40/thanks10.gif" /></a>';
-      var imgVoted = '<img style="position:relative;top:-3px;margin-right:3px" title="Obrigado" src="http://i38.servimg.com/u/f38/19/12/15/40/thanks11.gif" />';
-
-      postIcons.prepend('<li class="ddvote"><li>');
-
-       if (get_user() != postAuthor) { //se não for o dono do topico
-        $(postBody).find('.ddvote')[0].innerHTML = imgVote;
-        if (categoria == cat) {
-          //esconde o campo de links
-          $(principal[i]).find('code').css('display','none');
-          // $(posts[i]).find('blockquote').css('display','none');
+        postAuthor = $(principal[i]).find('.author a strong').html();
+        if (!(postAuthor)) {
+          postAuthor = $(principal[i]).find('.author a').html();
         }
-       }
+        if (!(postAuthor)){
+          postAuthor = $(principal[i]).find('.postprofile strong').html()
+        }
+        postHidden = $(principal[i]).find('.hidecode');
 
-      $(postBody).append('<div id="lista"></div>');
+        var postId = principal[i].id;
+        var postBody = $(principal[i]).find('.postbody');
+        var postAuthorUrl = $(principal[i]).find('.author a').attr('href');
+        var postIcons = $(principal[i]).find('.profile-icons');
+        var imgVote = '<a href="#"><img style="position:relative;top:-3px;margin-right:3px" title="Obrigado" src="http://i38.servimg.com/u/f38/19/12/15/40/thanks10.gif" /></a>';
+        var imgVoted = '<img style="position:relative;top:-3px;margin-right:3px" title="Obrigado" src="http://i38.servimg.com/u/f38/19/12/15/40/thanks11.gif" />';
 
-      service(postId, postBody);
+        postIcons.prepend('<li class="ddvote"><li>');
 
+        if (get_user() != postAuthor) { //se não for o dono do topico
+          $(postBody).find('.ddvote')[0].innerHTML = imgVote;
+          if (categoria == cat) {
+            //esconde o campo de links
+            $(principal[i]).find('code').css('display','none');
+            // $(posts[i]).find('blockquote').css('display','none');
+          }
+        }
+
+        $(postBody).append('<div id="lista"></div>');
+
+        service(postId, postBody);
+      }
     };
 
-    var arr = $('.post').get().map(x => {
-      return $(x).attr('id');
-    });
-
-    ServiceDelete(arr);
+    console.log($('.post').get().map(x => $(x).attr('id')).toString());
 
     $('.ddvote a').click(function() {
       var user = get_user();

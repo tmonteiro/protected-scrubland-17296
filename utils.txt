@@ -50,3 +50,10 @@ WHERE
    emp_cnpj <> ''
 GROUP BY emp_cnpj
 HAVING COUNT(*) > 1
+
+var arr = $('.post').get().map(x => $(x).attr('id')).toString();
+console.log($('.post').get().map(x => $(x).attr('id')).toString());
+
+
+http://otemploshaolin.forumeiros.com/t6157-dragon-gate-inn-1967
+http://otemploshaolin.forumeiros.com/t4442-a-touch-of-zen-1971-king-hu
