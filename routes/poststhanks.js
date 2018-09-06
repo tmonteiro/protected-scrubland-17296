@@ -3,11 +3,6 @@ const PoststhanksController = require('../controllers/poststhanks');
 module.exports = function(app) {
     const poststhanksController = new PoststhanksController(app.datasource.models.PostsThanks);
 
-    /*app.route('/')
-        .get((req, res) => {
-            res.render('index', { title: 'Shazam' });
-        });*/
-
     app.route('/posts')
         .get((req, res) => {
             poststhanksController.getAll()
