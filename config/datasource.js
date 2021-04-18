@@ -17,6 +17,7 @@ const loadModels = function(sequelize) {
 
 module.exports = function() {
     if(!database) {
+
         const options = {
             dialect: 'postgres',
             native: true,
@@ -25,7 +26,7 @@ module.exports = function() {
                 ssl: true
             }
         }
-        const sequelize = new Sequelize(process.env.DATABASE_URL, {...options});
+        const sequelize = new Sequelize(process.env.DATABASE_URL, options);
 
         database = {
             sequelize,
