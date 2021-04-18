@@ -20,7 +20,6 @@ module.exports = function() {
 
         const options = {
             dialect: 'postgres',
-            native: true,
             ssl: true,
             dialectOptions: {
                 ssl: true
