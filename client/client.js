@@ -50,7 +50,7 @@ $(function() {
              - apresentar o campo com os links (code?) */
              if (json.indexOf(get_user()) > -1 ) {
                $(pb).find('.ddvote')[0].innerHTML = imgVoted;
-               if (categoria == cat) {
+               if (cat.includes(categoria)) {
                  //esconde o campo de links
                  $(pb).find('code').css('display','block');
                  // $(posts[i]).find('blockquote').css('display','none');
@@ -71,7 +71,7 @@ $(function() {
     var postHidden;
     var pathname;
     var categoria;
-    var cat = 'Filmes Postados no Templo Shaolin';
+    var cat = ['Filmes Chineses Postados no Templo Shaolin', 'Outros Filmes Postados no Templo Shaolin'];
     var pageTitle = $('.page-title').find('a').html().trim();
 
     var principal = posts.filter(function(value){
@@ -98,14 +98,14 @@ $(function() {
         var postBody = $(principal[i]).find('.postbody');
         var postAuthorUrl = $(principal[i]).find('.author a').attr('href');
         var postIcons = $(principal[i]).find('.profile-icons');
-        var imgVote = '<a href="#"><img style="position:relative;top:-3px;margin-right:3px" title="Obrigado" src="http://i38.servimg.com/u/f38/19/12/15/40/thanks10.gif" /></a>';
-        var imgVoted = '<img style="position:relative;top:-3px;margin-right:3px" title="Obrigado" src="http://i38.servimg.com/u/f38/19/12/15/40/thanks11.gif" />';
+        var imgVote = '<a href="#"><img style="position:relative;top:-3px;margin-right:3px" title="Obrigado" src="https://i.servimg.com/u/f38/19/12/15/40/thanks10.gif" /></a>';
+        var imgVoted = '<img style="position:relative;top:-3px;margin-right:3px" title="Obrigado" src="https://i.servimg.com/u/f38/19/12/15/40/thanks11.gif" />';
 
         postIcons.prepend('<li class="ddvote"><li>');
 
         if (get_user() != postAuthor) { //se não for o dono do topico
           $(postBody).find('.ddvote')[0].innerHTML = imgVote;
-          if (categoria == cat) {
+          if (cat.includes(categoria)) {
             //esconde o campo de links
             $(principal[i]).find('code').css('display','none');
             // $(posts[i]).find('blockquote').css('display','none');
@@ -118,7 +118,7 @@ $(function() {
       }
     };
 
-    console.log($('.post').get().map(x => $(x).attr('id')).toString());
+    //console.log($('.post').get().map(x => $(x).attr('id')).toString());
 
     $('.ddvote a').click(function() {
       var user = get_user();
