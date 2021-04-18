@@ -17,7 +17,7 @@ const loadModels = function(sequelize) {
 
 module.exports = function() {
     if(!database) {
-        const sequelize = new Sequelize(process.env.DATABASE_URL);
+        const sequelize = new Sequelize(process.env.DATABASE_URL, {ssl: true});
 
         database = {
             sequelize,
